@@ -16,6 +16,7 @@
 		285ED915246E5BF900A39C19 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285ED914246E5BF900A39C19 /* PlayerView.swift */; };
 		2879D511247B9FA30047EEB0 /* RecordingUiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D510247B9FA30047EEB0 /* RecordingUiModel.swift */; };
 		2879D515247CC2230047EEB0 /* PlayerUiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D514247CC2230047EEB0 /* PlayerUiModel.swift */; };
+		2879D518247CDBF80047EEB0 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D517247CDBF80047EEB0 /* PlayerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		285ED914246E5BF900A39C19 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		2879D510247B9FA30047EEB0 /* RecordingUiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingUiModel.swift; sourceTree = "<group>"; };
 		2879D514247CC2230047EEB0 /* PlayerUiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUiModel.swift; sourceTree = "<group>"; };
+		2879D517247CDBF80047EEB0 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			children = (
 				2879D510247B9FA30047EEB0 /* RecordingUiModel.swift */,
 				285ED8E4245D269500A39C19 /* RecordingView.swift */,
+				2879D517247CDBF80047EEB0 /* PlayerViewModel.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				285ED8E5245D269500A39C19 /* RecordingView.swift in Sources */,
 				285ED915246E5BF900A39C19 /* PlayerView.swift in Sources */,
 				2879D511247B9FA30047EEB0 /* RecordingUiModel.swift in Sources */,
+				2879D518247CDBF80047EEB0 /* PlayerViewModel.swift in Sources */,
 				2879D515247CC2230047EEB0 /* PlayerUiModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

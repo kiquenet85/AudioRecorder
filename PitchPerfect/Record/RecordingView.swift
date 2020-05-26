@@ -11,17 +11,17 @@ import SwiftUI
 struct RecordingView: View {
     
     @ObservedObject var uiModel = RecordingUiModel()
-    @State var navigationAction: Int? = nil
+    //@State var navigationAction: Int? = nil
     
     var body: some View {
         NavigationView {
             VStack {
                 recordButton
                 Text(self.uiModel.labelName)
-                NavigationLink(destination: PlayerView(), tag: 1, selection: $navigationAction) {
+                NavigationLink(destination: PlayerView(), isActive: $uiModel.fireNavigation) {
                     stopRecordingButton
                 }.disabled(self.uiModel.isDisabledStopButton)
-                .navigationBarTitle(uiModel.navigationBarTitle)
+                    .navigationBarTitle(uiModel.navigationBarTitle)
             }
         }
     }
@@ -37,7 +37,6 @@ struct RecordingView: View {
     
     var stopRecordingButton: some View {
         Button(action: {
-            self.navigationAction = 1
             self.uiModel.updateStateTo(on: .STOPPED)
         }) {
             Image("Stop")

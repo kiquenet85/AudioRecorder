@@ -8,11 +8,7 @@
 
 import Foundation
 
-class RecordingUiModel : ObservableObject {
-    
-    //audio
-    let audioFileName = "recordedVoice.wav"
-    let navigationBarTitle = "Learning SwiftUI"
+class RecordingUiModel : ObservableObject, AudioListener {
     
     //Recording state
     enum RecordingState: String {
@@ -21,9 +17,16 @@ class RecordingUiModel : ObservableObject {
         case STOPPED = "Tap to record again."
     }
     
+    let navigationBarTitle = "Save your Audio"
+    
+    //audio
+    var delegateAudio : RecordingUiModelAudio
+    
+    //recording state
     var recordState : RecordingState
     
     //Values to observe by the view
+    @Published var fireNavigation = false
     @Published var labelName : String
     @Published var isDisabledRecordButton : Bool
     @Published var isDisabledStopButton : Bool
@@ -33,6 +36,9 @@ class RecordingUiModel : ObservableObject {
         isDisabledRecordButton = false
         isDisabledStopButton = true
         labelName = recordState.rawValue
+        
+        delegateAudio = RecordingUiModelAudio()
+        delegateAudio.audioListener = self
     }
     
     func updateStateTo(on recordingState: RecordingState) {
@@ -42,6 +48,7 @@ class RecordingUiModel : ObservableObject {
             self.isDisabledRecordButton = false
             self.isDisabledStopButton = true
         case .RECORDING:
+            delegateAudio.prepareAudio()
             self.labelName = recordingState.rawValue
             self.isDisabledRecordButton = true
             self.isDisabledStopButton = false
@@ -49,6 +56,16 @@ class RecordingUiModel : ObservableObject {
             self.labelName = recordingState.rawValue
             self.isDisabledRecordButton = false
             self.isDisabledStopButton = true
+            delegateAudio.stopAudioRecording()
         }
+    }
+    
+    //Listener to know if Audio was saved
+    func onAudioSavedOnSystem() {
+        fireNavigation = true
+    }
+    
+    func onAudioProblemSaving() {
+        print("There was an error saving the audio file.")
     }
 }
