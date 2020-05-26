@@ -14,35 +14,39 @@ struct PlayerView: View {
     @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
     var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ForEach(uiModel.imageFilenames, id: \.self) { buttonImageFileName in
-                Group {
+        GeometryReader { geometry in
+            ScrollView(.vertical) {
+                VStack(alignment: .center) {
                     Spacer()
-                    HStack {
-                        Spacer()
-                        ButtonSoundVariation(file: buttonImageFileName.left){
-                            self.loadAudioFromGlobalContext()
-                            self.uiModel.executeAction(using : buttonImageFileName.left)
-                        }.disabled(self.uiModel.areButtonsVariationsDisabled)
-                            .accentColor(self.buttonVariantsColor)
-                        Spacer()
-                        ButtonSoundVariation(file: buttonImageFileName.right){
-                            self.loadAudioFromGlobalContext()
-                            self.uiModel.executeAction(using : buttonImageFileName.right)
-                        }.disabled(self.uiModel.areButtonsVariationsDisabled)
-                            .accentColor(self.buttonVariantsColor)
-                        Spacer()
+                    ForEach(self.uiModel.imageFilenames, id: \.self) { buttonImageFileName in
+                        Group {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                ButtonSoundVariation(geometry: geometry, file: buttonImageFileName.left){
+                                    self.loadAudioFromGlobalContext()
+                                    self.uiModel.executeAction(using : buttonImageFileName.left)
+                                }.disabled(self.uiModel.areButtonsVariationsDisabled)
+                                    .accentColor(self.buttonVariantsColor)
+                                Spacer()
+                                ButtonSoundVariation(geometry: geometry, file: buttonImageFileName.right){
+                                    self.loadAudioFromGlobalContext()
+                                    self.uiModel.executeAction(using : buttonImageFileName.right)
+                                }.disabled(self.uiModel.areButtonsVariationsDisabled)
+                                    .accentColor(self.buttonVariantsColor)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
                     }
                     Spacer()
-                }
+                    ButtonStop(uiModel: self.uiModel, geometry: geometry)
+                        .disabled(self.uiModel.isDisabledStopButton)
+                        .accentColor(self.buttonStopColor)
+                    Spacer()
+                }.padding(16)
+                    .frame(width: geometry.size.width - 32, height: geometry.size.height - 32)
             }
-            Spacer()
-            ButtonStop(uiModel: uiModel)
-                .disabled(self.uiModel.isDisabledStopButton)
-                .accentColor(self.buttonStopColor)
-            
-            Spacer()
         }
     }
     
@@ -63,10 +67,12 @@ struct PlayerView: View {
 struct ButtonStop: View {
     private var buttonImageFileName: String
     private var uiModel : PlayerUiModel
+    private var geometry : GeometryProxy
     
-    init(uiModel: PlayerUiModel){
+    init(uiModel: PlayerUiModel, geometry: GeometryProxy){
         buttonImageFileName = uiModel.getStopButtonName()
         self.uiModel = uiModel
+        self.geometry = geometry
     }
     
     var body: some View {
@@ -76,7 +82,8 @@ struct ButtonStop: View {
             Image("Stop")
                 .renderingMode(.original)
                 .resizable()
-                .frame(width: 64, height: 64)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: (geometry.size.width - 32) * 0.171, height: (geometry.size.height - 32) * 0.171)
         }
     }
 }
@@ -84,16 +91,21 @@ struct ButtonStop: View {
 struct ButtonSoundVariation: View {
     private var buttonImageFileName: String
     private var customAction: () -> Void
+    private var geometry : GeometryProxy
     
-    init(file imageName: String, action: @escaping () -> Void){
+    init(geometry: GeometryProxy, file imageName: String, action: @escaping () -> Void){
         self.buttonImageFileName = imageName
         self.customAction = action
+        self.geometry = geometry
     }
     
     var body: some View {
         Button(action: customAction){
             Image(buttonImageFileName)
                 .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: (geometry.size.width - 32) * 0.26, height: (geometry.size.height - 32) * 0.26)
         }
     }
 }

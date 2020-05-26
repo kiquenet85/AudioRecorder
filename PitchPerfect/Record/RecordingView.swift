@@ -14,36 +14,69 @@ struct RecordingView: View {
     @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
     var body: some View {
-        NavigationView {
-            VStack {
-                recordButton
-                Text(self.uiModel.labelName)
-                NavigationLink(destination: PlayerView().environmentObject(self.audioGlobalContext), isActive: $uiModel.fireNavigation) {
-                    stopRecordingButton
-                }.disabled(self.uiModel.isDisabledStopButton)
-                    .navigationBarTitle(uiModel.navigationBarTitle)
+        GeometryReader { geometry in
+            NavigationView {
+                ScrollView(.vertical) {
+                    VStack {
+                        RecordButton(uiModel: self.uiModel, geometry: geometry)
+                        Text(self.uiModel.labelName)
+                        NavigationLink(destination: PlayerView().environmentObject(self.audioGlobalContext), isActive: self.$uiModel.fireNavigation) {
+                            StopRecordingButton(uiModel: self.uiModel, geometry: geometry)
+                        }.disabled(self.uiModel.isDisabledStopButton)
+                    }.padding(16)
+                        .frame(width: geometry.size.width - 32, height: geometry.size.height - 32)
+                        .navigationBarTitle(self.uiModel.navigationBarTitle)
+                }
+                
+                //Default View on big screens.
+                Text("Welcome to Audio Recorder")
             }
         }
     }
+}
+
+struct RecordButton: View {
+    private var uiModel : RecordingUiModel
+    private var geometry : GeometryProxy
+    @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
-    var recordButton: some View {
+    init(uiModel: RecordingUiModel, geometry: GeometryProxy){
+        self.geometry = geometry
+        self.uiModel = uiModel
+    }
+    
+    var body: some View {
         Button(action: {
             self.uiModel.updateStateTo(on: .RECORDING)
             self.audioGlobalContext.fileURL = self.uiModel.fileURL
         }){
             Image("Record")
                 .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: (geometry.size.width - 32) * 0.52, height: (geometry.size.height - 32) * 0.52)
         }.disabled(self.uiModel.isDisabledRecordButton)
     }
+}
+
+struct StopRecordingButton: View {
+    private var uiModel : RecordingUiModel
+    private var geometry : GeometryProxy
     
-    var stopRecordingButton: some View {
+    init(uiModel: RecordingUiModel, geometry: GeometryProxy){
+        self.geometry = geometry
+        self.uiModel = uiModel
+    }
+    
+    var body: some View {
         Button(action: {
             self.uiModel.updateStateTo(on: .STOPPED)
         }) {
             Image("Stop")
                 .renderingMode(.original)
                 .resizable()
-                .frame(width: 100, height: 100)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: (geometry.size.width - 32) * 0.26, height: (geometry.size.height - 32) * 0.26)
         }.disabled(self.uiModel.isDisabledStopButton)
     }
 }
