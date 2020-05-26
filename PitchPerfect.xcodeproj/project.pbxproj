@@ -68,8 +68,8 @@
 		285ED8DF245D269500A39C19 /* PitchPerfect */ = {
 			isa = PBXGroup;
 			children = (
-				2879D513247CC1E10047EEB0 /* Player */,
 				2879D512247CC1BC0047EEB0 /* Record */,
+				2879D513247CC1E10047EEB0 /* Player */,
 				2879D51B247D04320047EEB0 /* AudioGlobalContext.swift */,
 				285ED8E0245D269500A39C19 /* AppDelegate.swift */,
 				285ED8E2245D269500A39C19 /* SceneDelegate.swift */,
@@ -92,8 +92,8 @@
 		2879D512247CC1BC0047EEB0 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				2879D510247B9FA30047EEB0 /* RecordingUiModel.swift */,
 				285ED8E4245D269500A39C19 /* RecordingView.swift */,
+				2879D510247B9FA30047EEB0 /* RecordingUiModel.swift */,
 				2879D517247CDBF80047EEB0 /* RecordingViewModel.swift */,
 			);
 			path = Record;

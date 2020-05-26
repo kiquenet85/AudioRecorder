@@ -14,7 +14,8 @@ struct PlayerView: View {
     @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
+            Spacer()
             ForEach(uiModel.imageFilenames, id: \.self) { buttonImageFileName in
                 Group {
                     Spacer()
@@ -24,11 +25,13 @@ struct PlayerView: View {
                             self.loadAudioFromGlobalContext()
                             self.uiModel.executeAction(using : buttonImageFileName.left)
                         }.disabled(self.uiModel.areButtonsVariationsDisabled)
+                            .accentColor(self.buttonVariantsColor)
                         Spacer()
                         ButtonSoundVariation(file: buttonImageFileName.right){
                             self.loadAudioFromGlobalContext()
                             self.uiModel.executeAction(using : buttonImageFileName.right)
                         }.disabled(self.uiModel.areButtonsVariationsDisabled)
+                            .accentColor(self.buttonVariantsColor)
                         Spacer()
                     }
                     Spacer()
@@ -37,8 +40,18 @@ struct PlayerView: View {
             Spacer()
             ButtonStop(uiModel: uiModel)
                 .disabled(self.uiModel.isDisabledStopButton)
+                .accentColor(self.buttonStopColor)
+            
             Spacer()
         }
+    }
+    
+    var buttonVariantsColor: Color {
+        return uiModel.areButtonsVariationsDisabled ? .gray : .clear
+    }
+    
+    var buttonStopColor: Color {
+        return uiModel.isDisabledStopButton ? .gray : .clear
     }
     
     func loadAudioFromGlobalContext(){
