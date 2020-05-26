@@ -11,14 +11,14 @@ import SwiftUI
 struct RecordingView: View {
     
     @ObservedObject var uiModel = RecordingUiModel()
-    //@State var navigationAction: Int? = nil
+    @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
     var body: some View {
         NavigationView {
             VStack {
                 recordButton
                 Text(self.uiModel.labelName)
-                NavigationLink(destination: PlayerView(), isActive: $uiModel.fireNavigation) {
+                NavigationLink(destination: PlayerView().environmentObject(self.audioGlobalContext), isActive: $uiModel.fireNavigation) {
                     stopRecordingButton
                 }.disabled(self.uiModel.isDisabledStopButton)
                     .navigationBarTitle(uiModel.navigationBarTitle)
@@ -29,6 +29,7 @@ struct RecordingView: View {
     var recordButton: some View {
         Button(action: {
             self.uiModel.updateStateTo(on: .RECORDING)
+            self.audioGlobalContext.fileURL = self.uiModel.fileURL
         }){
             Image("Record")
                 .renderingMode(.original)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RecordingUiModel : ObservableObject, AudioListener {
+class RecordingUiModel : ObservableObject, SaveAudioListener {
     
     //Recording state
     enum RecordingState: String {
@@ -20,7 +20,8 @@ class RecordingUiModel : ObservableObject, AudioListener {
     let navigationBarTitle = "Save your Audio"
     
     //audio
-    var delegateAudio : RecordingUiModelAudio
+    var delegateAudio : RecordingViewModel
+    var fileURL : URL? = nil
     
     //recording state
     var recordState : RecordingState
@@ -37,7 +38,7 @@ class RecordingUiModel : ObservableObject, AudioListener {
         isDisabledStopButton = true
         labelName = recordState.rawValue
         
-        delegateAudio = RecordingUiModelAudio()
+        delegateAudio = RecordingViewModel()
         delegateAudio.audioListener = self
     }
     
@@ -48,7 +49,7 @@ class RecordingUiModel : ObservableObject, AudioListener {
             self.isDisabledRecordButton = false
             self.isDisabledStopButton = true
         case .RECORDING:
-            delegateAudio.prepareAudio()
+            fileURL = delegateAudio.prepareAudio()
             self.labelName = recordingState.rawValue
             self.isDisabledRecordButton = true
             self.isDisabledStopButton = false

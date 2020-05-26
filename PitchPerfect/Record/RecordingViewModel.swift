@@ -9,19 +9,19 @@
 import Foundation
 import AVFoundation
 
-protocol AudioListener: class {
+protocol SaveAudioListener: class {
     func onAudioSavedOnSystem()
     func onAudioProblemSaving()
 }
 
-class RecordingUiModelAudio : NSObject, AVAudioRecorderDelegate {
+class RecordingViewModel : NSObject, AVAudioRecorderDelegate {
     
     let audioFileName = "recordedVoice.wav"
     var audioRecorder: AVAudioRecorder!
-    weak var audioListener: AudioListener? = nil
+    weak var audioListener: SaveAudioListener? = nil
     
     //MARK: Prepare Audio Logic.
-    func prepareAudio() {
+    func prepareAudio() -> URL? {
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]  as String
         let recordingName = audioFileName
         let pathArray = [dirPath, recordingName]
@@ -38,6 +38,7 @@ class RecordingUiModelAudio : NSObject, AVAudioRecorderDelegate {
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
+        return filePath
     }
     
     func stopAudioRecording() {

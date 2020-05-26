@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct PlayerView: View {
+    
     @ObservedObject var uiModel = PlayerUiModel()
+    @EnvironmentObject var audioGlobalContext: AudioGlobalContext
     
     var body: some View {
         VStack {
@@ -19,12 +21,14 @@ struct PlayerView: View {
                     HStack {
                         Spacer()
                         ButtonSoundVariation(file: buttonImageFileName.left){
+                            self.loadAudioFromGlobalContext()
                             self.uiModel.executeAction(using : buttonImageFileName.left)
-                        }
+                        }.disabled(self.uiModel.areButtonsVariationsDisabled)
                         Spacer()
                         ButtonSoundVariation(file: buttonImageFileName.right){
+                            self.loadAudioFromGlobalContext()
                             self.uiModel.executeAction(using : buttonImageFileName.right)
-                        }
+                        }.disabled(self.uiModel.areButtonsVariationsDisabled)
                         Spacer()
                     }
                     Spacer()
@@ -32,8 +36,14 @@ struct PlayerView: View {
             }
             Spacer()
             ButtonStop(uiModel: uiModel)
+                .disabled(self.uiModel.isDisabledStopButton)
             Spacer()
         }
+    }
+    
+    func loadAudioFromGlobalContext(){
+        self.uiModel.viewModel.recordedAudioURL = self.audioGlobalContext.fileURL
+        self.uiModel.loadAudioFile()
     }
 }
 
