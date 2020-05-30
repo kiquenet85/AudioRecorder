@@ -56,7 +56,7 @@ struct RecordButton: View {
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: (geometry.size.width - 32) * 0.52, height: (geometry.size.height - 32) * 0.52)
+                .frame(width: (geometry.size.width - 32) * 0.46, height: (geometry.size.height - 32) * 0.46)
         }.disabled(self.uiModel.isDisabledRecordButton)
     }
 }
