@@ -18,10 +18,14 @@ struct DimenUtils {
     static let buttonCoomonSize = 100
     
     static func percentageFrom (value: Int, screenWidthSize: Float) -> CFloat? {
-       return  CFloat(value/defaultWidth * value)
+        return  CFloat(value/defaultWidth * value)
     }
     
     static func percentageFrom (value: Int, screenHeightSize: Float) -> CFloat {
         return  CFloat(value/defaultHeight * value)
+    }
+    
+    static func minValue (w: CFloat, h: CFloat) -> CFloat {
+        return  CFloat(min(Float(w), Float(h)))
     }
 }
