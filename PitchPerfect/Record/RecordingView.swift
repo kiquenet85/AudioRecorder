@@ -26,6 +26,8 @@ struct RecordingView: View {
                     }.padding(16)
                         .frame(width: geometry.size.width - 32, height: geometry.size.height - 32)
                         .navigationBarTitle(self.uiModel.navigationBarTitle)
+                }.alert(isPresented: self.$uiModel.showingAlert) {
+                    Alert(title: Text(self.uiModel.alertTitle), message: Text(self.uiModel.alertMessage), dismissButton: .default(Text(self.uiModel.alertDismissText)))
                 }
                 
                 //Default View on big screens.
@@ -87,6 +89,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+//Force phones to always work on stack mode,
 extension View {
     func phoneOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .phone {

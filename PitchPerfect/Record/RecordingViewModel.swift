@@ -11,29 +11,54 @@ import AVFoundation
 
 protocol SaveAudioListener: class {
     func onAudioSavedOnSystem()
-    func onAudioProblemSaving()
+    func onAudioProblem(title: String, message:String)
 }
 
 class RecordingViewModel : NSObject, AVAudioRecorderDelegate {
     
-    let audioFileName = "recordedVoice.wav"
+    //MARK: alerts error title and messages
+    struct Alerts {
+        static let errorSavingFileTitle = "Problem saving audio file."
+        static let errorSavingFileMessage = "There was a problem saving the audio file \(RecordingViewModel.audioFileName)"
+        
+        static let errorStoppingFileTitle = "Problem stopping audio file."
+        static let errorStoppingFileMessage = "There was a stopping saving the audio file \(RecordingViewModel.audioFileName)"
+        
+        static let errorAudioFilePathTitle = "Problem on path file"
+        static let errorAudioFilePathMessage = "There was a problem on path file and settings."
+        
+        static let errorAudioSessionTitle = "Problem on Audio Session"
+        static let errorAudioSessionMessage = "There was a problem opening recording audio session."
+    }
+    
+    static let audioFileName = "recordedVoice.wav"
     var audioRecorder: AVAudioRecorder!
     weak var audioListener: SaveAudioListener? = nil
     
     //MARK: Prepare Audio Logic.
     func prepareAudio() -> URL? {
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]  as String
-        let recordingName = audioFileName
+        let recordingName = RecordingViewModel.audioFileName
         let pathArray = [dirPath, recordingName]
         let filePath = URL(string: pathArray.joined(separator: "/"))
         print(filePath!)
         
         let session = AVAudioSession.sharedInstance()
-        try! session.setCategory(AVAudioSession.Category.playAndRecord,
-                                 mode: AVAudioSession.Mode.default,
-                                 options: AVAudioSession.CategoryOptions.defaultToSpeaker)
         
-        try! audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
+        do {
+            try session.setCategory(AVAudioSession.Category.playAndRecord,
+                                    mode: AVAudioSession.Mode.default,
+                                    options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+        } catch {
+            showAlert(title: Alerts.errorAudioSessionTitle, message: Alerts.errorAudioSessionMessage)
+        }
+        
+        do {
+            try audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
+        } catch {
+            showAlert(title: Alerts.errorAudioFilePathTitle, message: Alerts.errorAudioFilePathMessage)
+        }
+        
         audioRecorder.delegate = self
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
@@ -43,7 +68,12 @@ class RecordingViewModel : NSObject, AVAudioRecorderDelegate {
     
     func stopAudioRecording() {
         audioRecorder.stop()
-        try! AVAudioSession.sharedInstance().setActive(false)
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(false)
+        } catch {
+            showAlert(title: Alerts.errorStoppingFileTitle, message: Alerts.errorStoppingFileMessage)
+        }
     }
     
     // Audio Recorder delegate
@@ -51,7 +81,12 @@ class RecordingViewModel : NSObject, AVAudioRecorderDelegate {
         if flag {
             audioListener?.onAudioSavedOnSystem()
         } else {
-            audioListener?.onAudioProblemSaving()
+            showAlert(title: Alerts.errorSavingFileTitle, message: Alerts.errorSavingFileMessage)
         }
+    }
+    
+    func showAlert(title: String, message: String){
+        print("There was an error \(title) with the message \(message)")
+        audioListener?.onAudioProblem(title: title, message: message)
     }
 }

@@ -46,6 +46,9 @@ struct PlayerView: View {
                     Spacer()
                 }.padding(16)
                     .frame(width: geometry.size.width - 32, height: geometry.size.height - 32)
+                .alert(isPresented: self.$uiModel.showingAlert) {
+                    Alert(title: Text(self.uiModel.alertTitle), message: Text(self.uiModel.alertMessage), dismissButton: .default(Text(self.uiModel.alertDismissText)))
+                }
             }
         }
     }

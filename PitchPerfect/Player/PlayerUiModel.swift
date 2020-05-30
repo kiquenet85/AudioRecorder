@@ -25,21 +25,30 @@ extension HorizontalButtonNames: Hashable where A: Hashable, B: Hashable { }
 
 class PlayerUiModel : ObservableObject, AudioListener {
     
+    //MARK: enums
+    enum SoundButton: String {
+           case SLOW = "Slow"
+           case FAST = "Fast"
+           case HIGH_PITCH = "HighPitch"
+           case LOW_PITCH = "LowPitch"
+           case ECHO = "Echo"
+           case REVERB = "Reverb"
+           case STOP = "Stop"
+       }
+    
+    //MARK: Variables and constants
     var imageFilenames: [HorizontalButtonNames<String, String>]
     var viewModel : PlayerViewModel
     
+    //MARK: Observerd UI variables
     @Published var areButtonsVariationsDisabled : Bool
     @Published var isDisabledStopButton : Bool
     
-    enum SoundButton: String {
-        case SLOW = "Slow"
-        case FAST = "Fast"
-        case HIGH_PITCH = "HighPitch"
-        case LOW_PITCH = "LowPitch"
-        case ECHO = "Echo"
-        case REVERB = "Reverb"
-        case STOP = "Stop"
-    }
+    // Alert varaiables
+    @Published var showingAlert : Bool
+    @Published var alertTitle : String
+    @Published var alertMessage : String
+    @Published var alertDismissText : String
     
     init() {
         imageFilenames = [HorizontalButtonNames( SoundButton.SLOW.rawValue, SoundButton.FAST.rawValue),
@@ -48,6 +57,11 @@ class PlayerUiModel : ObservableObject, AudioListener {
         
         areButtonsVariationsDisabled = false
         isDisabledStopButton = true
+        
+        showingAlert = false
+        alertTitle = "Error"
+        alertMessage = "There was an error"
+        alertDismissText = "Ok"
         
         viewModel = PlayerViewModel()
         viewModel.audioListener = self
@@ -69,6 +83,12 @@ class PlayerUiModel : ObservableObject, AudioListener {
         areButtonsVariationsDisabled = false
         isDisabledStopButton = true
     }
+    
+    func onAudioPlayerProblem(title: String, message: String) {
+         showingAlert = true
+         alertTitle = title
+         alertMessage = message
+     }
     
     private func beforeAudioStarting() {
         areButtonsVariationsDisabled = true

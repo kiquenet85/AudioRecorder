@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Let's see if we can use this utility in SwiftUi
 struct DimenUtils {
     //Sesign wasmade thingking on these dimensions 2nd Generation Phone.
     static let defaultWidth = 375

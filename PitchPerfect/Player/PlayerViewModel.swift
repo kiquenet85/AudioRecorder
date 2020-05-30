@@ -12,6 +12,7 @@ import AVFoundation
 
 protocol AudioListener: class {
     func onAudioFinished()
+    func onAudioPlayerProblem(title: String, message: String)
 }
 
 class PlayerViewModel: NSObject, AVAudioPlayerDelegate {
@@ -149,5 +150,6 @@ class PlayerViewModel: NSObject, AVAudioPlayerDelegate {
     
     func showAlert(alert: String, message: String){
         print("There was an error \(alert) with the message \(message)")
+        audioListener?.onAudioPlayerProblem(title: alert, message: message)
     }
 }
