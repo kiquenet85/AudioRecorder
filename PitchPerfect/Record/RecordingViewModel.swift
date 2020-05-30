@@ -22,10 +22,10 @@ class RecordingViewModel : NSObject, AVAudioRecorderDelegate {
         static let errorSavingFileMessage = "There was a problem saving the audio file \(RecordingViewModel.audioFileName)"
         
         static let errorStoppingFileTitle = "Problem stopping audio file."
-        static let errorStoppingFileMessage = "There was a stopping saving the audio file \(RecordingViewModel.audioFileName)"
+        static let errorStoppingFileMessage = "There was a problem stopping saving the audio file \(RecordingViewModel.audioFileName)"
         
         static let errorAudioFilePathTitle = "Problem on path file"
-        static let errorAudioFilePathMessage = "There was a problem on path file and settings."
+        static let errorAudioFilePathMessage = "There was a problem on path file."
         
         static let errorAudioSessionTitle = "Problem on Audio Session"
         static let errorAudioSessionMessage = "There was a problem opening recording audio session."

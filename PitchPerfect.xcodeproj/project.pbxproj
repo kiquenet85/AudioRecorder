@@ -20,6 +20,7 @@
 		2879D51A247CFD280047EEB0 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D519247CFD280047EEB0 /* PlayerViewModel.swift */; };
 		2879D51C247D04320047EEB0 /* AudioGlobalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D51B247D04320047EEB0 /* AudioGlobalContext.swift */; };
 		2879D51F247DD6450047EEB0 /* DimenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D51E247DD6450047EEB0 /* DimenUtils.swift */; };
+		2879D521248300DF0047EEB0 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879D520248300DF0047EEB0 /* CustomError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		2879D519247CFD280047EEB0 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		2879D51B247D04320047EEB0 /* AudioGlobalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGlobalContext.swift; sourceTree = "<group>"; };
 		2879D51E247DD6450047EEB0 /* DimenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimenUtils.swift; sourceTree = "<group>"; };
+		2879D520248300DF0047EEB0 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +72,7 @@
 		285ED8DF245D269500A39C19 /* PitchPerfect */ = {
 			isa = PBXGroup;
 			children = (
-				2879D51D247DD6290047EEB0 /* New Group */,
+				2879D51D247DD6290047EEB0 /* Utils */,
 				2879D512247CC1BC0047EEB0 /* Record */,
 				2879D513247CC1E10047EEB0 /* Player */,
 				2879D51B247D04320047EEB0 /* AudioGlobalContext.swift */,
@@ -112,12 +114,13 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		2879D51D247DD6290047EEB0 /* New Group */ = {
+		2879D51D247DD6290047EEB0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				2879D51E247DD6450047EEB0 /* DimenUtils.swift */,
+				2879D520248300DF0047EEB0 /* CustomError.swift */,
 			);
-			path = "New Group";
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +201,7 @@
 				285ED915246E5BF900A39C19 /* PlayerView.swift in Sources */,
 				2879D51F247DD6450047EEB0 /* DimenUtils.swift in Sources */,
 				2879D511247B9FA30047EEB0 /* RecordingUiModel.swift in Sources */,
+				2879D521248300DF0047EEB0 /* CustomError.swift in Sources */,
 				2879D518247CDBF80047EEB0 /* RecordingViewModel.swift in Sources */,
 				2879D51C247D04320047EEB0 /* AudioGlobalContext.swift in Sources */,
 				2879D515247CC2230047EEB0 /* PlayerUiModel.swift in Sources */,
